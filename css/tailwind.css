@@ -1,0 +1,287 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/forms";
+@plugin '@tailwindcss/typography';
+@source '../node_modules/pliny';
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Core theme configuration */
+@theme {
+  /* Font families */
+  --font-sans: var(--font-handlee), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Colors - Vintage Journal Theme */
+  /* Primary: Brown/Sepia tones */
+  --color-primary-50: #fdf8f3;
+  --color-primary-100: #f5e6d3;
+  --color-primary-200: #e8d0b3;
+  --color-primary-300: #d4a574;
+  --color-primary-400: #c08552;
+  --color-primary-500: #8b5a2b;
+  --color-primary-600: #704214;
+  --color-primary-700: #5c3611;
+  --color-primary-800: #4a2c0f;
+  --color-primary-900: #3d2314;
+  --color-primary-950: #2c1810;
+
+  /* Gray: Warm cream/beige tones */
+  --color-gray-50: #faf6f1;
+  --color-gray-100: #f5f0e6;
+  --color-gray-200: #e8e0d5;
+  --color-gray-300: #d4c9b9;
+  --color-gray-400: #a89a87;
+  --color-gray-500: #7d6e5c;
+  --color-gray-600: #5c4d3d;
+  --color-gray-700: #4a3f32;
+  --color-gray-800: #3d3428;
+  --color-gray-900: #2f2620;
+  --color-gray-950: #1f1a14;
+
+  /* Line heights */
+  --line-height-11: 2.75rem;
+  --line-height-12: 3rem;
+  --line-height-13: 3.25rem;
+  --line-height-14: 3.5rem;
+
+  /* Z-index values */
+  --z-60: 60;
+  --z-70: 70;
+  --z-80: 80;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  /* Increase base font size */
+  html {
+    font-size: 18px;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  a,
+  button {
+    outline-color: var(--color-primary-500);
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid;
+    border-radius: var(--radius-sm);
+    outline-color: var(--color-primary-500);
+  }
+}
+
+@layer utilities {
+  .prose {
+    & a {
+      color: var(--color-primary-500);
+      &:hover {
+        color: var(--color-primary-600);
+      }
+      & code {
+        color: var(--color-primary-400);
+      }
+    }
+    & :where(h1, h2) {
+      font-weight: 700;
+      letter-spacing: var(--tracking-tight);
+    }
+    & h3 {
+      font-weight: 600;
+    }
+    & :where(code):not(pre code) {
+      color: var(--color-primary-700);
+      background-color: var(--color-gray-200);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    /* Code blocks - darker background for contrast in light mode */
+    & pre {
+      background-color: #3d3428 !important;
+      border: 2px solid var(--color-gray-600);
+      border-radius: 0.5rem;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      & code {
+        color: #e8e0d5;
+        background-color: transparent;
+        padding: 0;
+      }
+    }
+    /* Tables - warm styling */
+    & table {
+      border-collapse: collapse;
+      & th {
+        background-color: var(--color-gray-200);
+        color: var(--color-gray-900);
+        font-weight: 600;
+        border: 1px solid var(--color-gray-300);
+      }
+      & td {
+        border: 1px solid var(--color-gray-300);
+      }
+      & tr:nth-child(even) {
+        background-color: var(--color-gray-50);
+      }
+    }
+    /* Blockquotes - journal style */
+    & blockquote {
+      border-left: 4px solid var(--color-primary-400);
+      background-color: var(--color-gray-50);
+      padding: 1rem 1.5rem;
+      font-style: italic;
+      color: var(--color-gray-700);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    /* Images - paper frame effect */
+    & img {
+      border: 3px solid var(--color-gray-300);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    /* Horizontal rules */
+    & hr {
+      border-color: var(--color-gray-300);
+    }
+  }
+
+  .prose-invert {
+    & a {
+      color: var(--color-primary-400);
+      &:hover {
+        color: var(--color-primary-300);
+      }
+      & code {
+        color: var(--color-primary-400);
+      }
+    }
+    & :where(h1, h2, h3, h4, h5, h6) {
+      color: var(--color-gray-100);
+    }
+    & :where(code):not(pre code) {
+      color: var(--color-primary-300);
+      background-color: var(--color-gray-800);
+    }
+    /* Dark mode code blocks - light cream background */
+    & pre {
+      background-color: #f5f0e6 !important;
+      border-color: var(--color-gray-400);
+      & code {
+        color: var(--color-gray-800);
+      }
+    }
+    /* Dark mode tables */
+    & table {
+      & th {
+        background-color: var(--color-gray-800);
+        color: var(--color-gray-100);
+        border-color: var(--color-gray-700);
+      }
+      & td {
+        border-color: var(--color-gray-700);
+      }
+      & tr:nth-child(even) {
+        background-color: var(--color-gray-900);
+      }
+    }
+    /* Dark mode blockquotes */
+    & blockquote {
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-300);
+      border-left-color: var(--color-primary-500);
+    }
+    /* Dark mode images */
+    & img {
+      border-color: var(--color-gray-700);
+    }
+  }
+}
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.data-footnote-backref {
+  @apply no-underline;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
+
+/* Math formulas - vintage style */
+.katex-display {
+  overflow: auto hidden;
+  background-color: var(--color-gray-50);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-gray-300);
+  margin: 1.5rem 0;
+}
+
+.katex {
+  color: var(--color-gray-900);
+}
+
+.dark .katex-display {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+}
+
+.dark .katex {
+  color: var(--color-gray-100);
+}
+
+.content-header-link {
+  opacity: 0;
+  margin-left: -24px;
+  padding-right: 4px;
+}
+
+.content-header:hover .content-header-link,
+.content-header-link:hover {
+  opacity: 1;
+}
+
+.linkicon {
+  display: inline-block;
+  vertical-align: middle;
+}
